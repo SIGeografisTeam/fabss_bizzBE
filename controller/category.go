@@ -9,8 +9,8 @@ import (
 	"github.com/gorilla/mux" // Import gorilla/mux untuk menangani path parameters
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"plastiqu_co/config" // Ganti dengan path package config Anda
-	"plastiqu_co/model"  // Ganti dengan path package model Anda
+	"plastiqu_co/config" 
+	"plastiqu_co/model"  
 )
 
 // CreateCategory handles the creation of a new category

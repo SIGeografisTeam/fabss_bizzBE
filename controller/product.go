@@ -5,10 +5,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"plastiqu_co/model"
+
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"plastiqu_co/model" // Ganti dengan path ke model Anda
 )
 
 var productCollection *mongo.Collection
@@ -26,6 +28,11 @@ func AddProduct(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
+	}
+
+	// Set the ID to a new ObjectID if it is not provided
+	if product.ID.IsZero() {
+		product.ID = primitive.NewObjectID()
 	}
 
 	// Insert product into the collection
@@ -68,7 +75,14 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 
 	var product model.Product
-	err := productCollection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&product)
+	// Convert id string to ObjectID
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
+	err = productCollection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -77,6 +91,7 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(product)
 }
+
 // UpdateProduct untuk memperbarui produk berdasarkan ID
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -90,8 +105,15 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Convert id string to ObjectID
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
 	// Update the product in the collection
-	filter := bson.M{"_id": id}
+	filter := bson.M{"_id": objID}
 	update := bson.M{"$set": updatedProduct}
 
 	result, err := productCollection.UpdateOne(context.TODO(), filter, update)
@@ -109,8 +131,15 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
+	// Convert id string to ObjectID
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
 	// Delete the product from the collection
-	result, err := productCollection.DeleteOne(context.TODO(), bson.M{"_id": id})
+	result, err := productCollection.DeleteOne(context.TODO(), bson.M{"_id": objID})
 	if err != nil || result.DeletedCount == 0 {
 		http.Error(w, "Product not found", http.StatusNotFound)
 		return
