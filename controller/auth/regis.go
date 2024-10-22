@@ -31,24 +31,13 @@ if err != nil {
 }
 
 	// Validasi masing-masing field
-	if user.FirstName == "" {
+	if user.Username == "" {
 		responseMessage = "First name is required"
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
 			"error":   responseMessage,
 			"message": "Please provide a valid first name.",
-		})
-		return
-	}
-
-	if user.LastName == "" {
-		responseMessage = "Last name is required"
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error":   responseMessage,
-			"message": "Please provide a valid last name.",
 		})
 		return
 	}
@@ -134,11 +123,9 @@ if err != nil {
 	defer cancel()
 
 	result, err := collection.InsertOne(ctx, bson.M{
-		"first_name": user.FirstName,
-		"last_name":  user.LastName,
+		"username": user.Username,
 		"phone":      user.Phone,
 		"email":      user.Email,
-		"address":    user.Address,
 		"role":       user.Role,
 		"password":   user.Password,
 		"created_at": user.CreatedAt,

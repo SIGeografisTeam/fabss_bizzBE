@@ -63,10 +63,8 @@ func AdminUpdateUserProfile(w http.ResponseWriter, r *http.Request) {
 
 	// Prepare the update fields
 	updateFields := bson.M{
-		"first_name": updateData.FirstName,
-		"last_name":  updateData.LastName,
+		"username": updateData.Username,
 		"phone":      updateData.Phone,
-		"address":    updateData.Address,
 		"image":      updateData.Image, // Nullable
 		"role":       updateData.Role,  // Admin can update role
 		"updated_at": time.Now(),

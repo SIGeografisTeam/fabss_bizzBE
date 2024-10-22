@@ -80,8 +80,7 @@ func LoginUsers(w http.ResponseWriter, r *http.Request) {
 		"message":  "Login successful",
 		"user_id":  user.ID.Hex(),
 		"email":    user.Email,
-		"first_name" : user.FirstName,
-		"last_name" : user.LastName,
+		"username" : user.Username,
 		"role":     user.Role,
 	}
 	w.Header().Set("Content-Type", "application/json")
