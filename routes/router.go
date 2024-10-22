@@ -59,5 +59,13 @@ func InitializeRoutes() *mux.Router {
 	router.HandleFunc("/carts/{user_id}", controller.GetCartItems).Methods("GET")       // Mendapatkan semua item di keranjang untuk pengguna tertentu
 	router.HandleFunc("/carts/{id}", controller.UpdateCartItem).Methods("PUT")          // Memperbarui item di keranjang berdasarkan ID
 	router.HandleFunc("/carts/{id}", controller.RemoveFromCart).Methods("DELETE")       // Menghapus item dari keranjang berdasarkan ID
+	
+	// Review routes
+	router.HandleFunc("/reviews", controller.CreateReviewHandler).Methods("POST")                // Membuat ulasan baru
+	router.HandleFunc("/products/{product_id}/reviews", controller.GetReviewsHandler).Methods("GET") // Mengambil semua ulasan untuk produk tertentu
+	router.HandleFunc("/reviews/{review_id}", controller.UpdateReviewHandler).Methods("PUT")     // Memperbarui ulasan
+	router.HandleFunc("/reviews/{review_id}", controller.DeleteReviewHandler).Methods("DELETE")  // Menghapus ulasan
+	router.HandleFunc("/reviews/{review_id}/response", controller.AdminRespondReviewHandler).Methods("POST") // Admin menanggapi ulasan
+
 	return router
 }
