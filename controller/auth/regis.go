@@ -75,29 +75,6 @@ if err != nil {
 		return
 	}
 	
-	// Check if confirm_password exists in request body
-	if user.ConfirmPassword == "" {
-		responseMessage = "Confirm password is required"
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error":   responseMessage,
-			"message": "Please provide a confirm password.",
-		})
-		return
-	}
-	
-	// Check if password and confirm password match
-	if user.Password != user.ConfirmPassword {
-		responseMessage = "Passwords do not match"
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error":   responseMessage,
-			"message": "The passwords you entered do not match.",
-		})
-		return
-	}
 
 	// Hash the user's password before saving it to the database
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)

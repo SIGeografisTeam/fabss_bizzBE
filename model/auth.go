@@ -13,7 +13,6 @@ type Users struct {
 	Role            string             `bson:"role,omitempty" json:"role,omitempty"` // Default "user"
 	Phone           string             `bson:"phone,omitempty" json:"phone,omitempty"`
 	Password        string             `bson:"password,omitempty" json:"password,omitempty"`
-	ConfirmPassword string             `bson:"confirm_password,omitempty" json:"confirm_password,omitempty"` // Nullable
 	Image           string             `bson:"image,omitempty" json:"image,omitempty"` // Nullable, URL or base64 for image
 	CreatedAt       time.Time          `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 	UpdatedAt       time.Time          `bson:"updatedAt,omitempty" json:"updatedAt,omitempty"`
