@@ -74,5 +74,12 @@ func InitializeRoutes() *mux.Router {
 	router.HandleFunc("/banners/{id}", controller.UpdateBanner).Methods("PUT")
 	router.HandleFunc("/banners/{id}", controller.DeleteBanner).Methods("DELETE")
 
+	// address
+	router.HandleFunc("/addresses", controller.CreateAddress).Methods("POST")
+	router.HandleFunc("/addresses", controller.GetAddresses).Methods("GET")
+	router.HandleFunc("/addresses/{id}", controller.GetAddressByID).Methods("GET")
+	router.HandleFunc("/addresses/{id}", controller.UpdateAddress).Methods("PUT")
+	router.HandleFunc("/addresses/{id}", controller.DeleteAddress).Methods("DELETE")
+
 	return router
 }
