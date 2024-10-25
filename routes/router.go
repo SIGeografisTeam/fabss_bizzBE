@@ -67,5 +67,12 @@ func InitializeRoutes() *mux.Router {
 	router.HandleFunc("/reviews/{review_id}", controller.DeleteReviewHandler).Methods("DELETE")  // Menghapus ulasan
 	router.HandleFunc("/reviews/{review_id}/response", controller.AdminRespondReviewHandler).Methods("POST") // Admin menanggapi ulasan
 
+	// banners
+	router.HandleFunc("/banners", controller.CreateBanner).Methods("POST")
+	router.HandleFunc("/banners", controller.GetBanners).Methods("GET")
+	router.HandleFunc("/banners/{id}", controller.GetBannerByID).Methods("GET")
+	router.HandleFunc("/banners/{id}", controller.UpdateBanner).Methods("PUT")
+	router.HandleFunc("/banners/{id}", controller.DeleteBanner).Methods("DELETE")
+
 	return router
 }
