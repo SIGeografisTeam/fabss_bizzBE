@@ -35,6 +35,10 @@ func AddProduct(w http.ResponseWriter, r *http.Request) {
 		product.ID = primitive.NewObjectID()
 	}
 
+	// Set default values for rating and sold
+	product.Rating = 0.0 // Default rating
+	product.Sold = 0     // Default sold count
+
 	// Insert product into the collection
 	if _, err := productCollection.InsertOne(context.TODO(), product); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -112,7 +116,7 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Update the product in the collection
+	// Prepare the update
 	filter := bson.M{"_id": objID}
 	update := bson.M{"$set": updatedProduct}
 

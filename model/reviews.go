@@ -20,3 +20,12 @@ type Review struct {
 	UpdatedAt      time.Time          `bson:"updated_at,omitempty" json:"updated_at,omitempty"` // Tanggal ulasan terakhir diperbarui
 }
 
+
+// WebsiteReview struct untuk merepresentasikan ulasan tentang website
+type WebsiteReview struct {
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"` // ID ulasan
+	UserID    string             `json:"user_id" bson:"user_id"`   // ID pengguna yang memberikan ulasan
+	Rating    int                `bson:"rating" json:"rating"`     // Rating dari 1-5
+	Review    string             `bson:"review" json:"review"`     // Ulasan
+	Date      time.Time          `bson:"date" json:"date"`         // Tanggal dan waktu ulasan diberikan
+}

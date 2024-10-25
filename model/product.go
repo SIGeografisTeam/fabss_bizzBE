@@ -17,6 +17,8 @@ type Product struct {
 	CategoryID  primitive.ObjectID `bson:"category_id,omitempty" json:"category_id,omitempty"` // Foreign Key ke tabel Category
 	Name        string             `bson:"name,omitempty" json:"name,omitempty"`
 	Description string             `bson:"description,omitempty" json:"description,omitempty"`
+	Rating        float64            `json:"rating" bson:"rating"`
+	Sold          int                `json:"sold" bson:"sold"`
 	Variants    []Variant          `bson:"variants,omitempty" json:"variants,omitempty"` // Daftar varian produk (bisa kosong)
 	TotalStock  int                `bson:"total_stock,omitempty" json:"total_stock,omitempty"` // Stok total (akumulasi dari semua varian atau stok produk itu sendiri)
 	PriceRange  struct {
